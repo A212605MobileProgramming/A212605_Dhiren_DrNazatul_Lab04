@@ -4,9 +4,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -14,12 +16,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.a212605_dhiren_drnazatul_lab04.model.CheapMealViewModel
 import com.example.a212605_dhiren_drnazatul_lab04.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileScreen(navController: NavController, userViewModel: UserViewModel) {
-    val profile = userViewModel.userProfile
+fun ProfileScreen(navController: NavController, viewModel: CheapMealViewModel) {
+    val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(
         topBar = {
@@ -27,7 +30,7 @@ fun ProfileScreen(navController: NavController, userViewModel: UserViewModel) {
                 title = { Text("My Account", fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -36,7 +39,8 @@ fun ProfileScreen(navController: NavController, userViewModel: UserViewModel) {
                     navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
                 )
             )
-        }
+        },
+        bottomBar = { BottomNavBar(navController, viewModel) }
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -55,7 +59,7 @@ fun ProfileScreen(navController: NavController, userViewModel: UserViewModel) {
             ) {
                 Box(contentAlignment = Alignment.Center) {
                     Text(
-                        text = profile.name.take(1).uppercase().ifEmpty { "?" },
+                        text = uiState.name.take(1).uppercase().ifEmpty { "?" },
                         fontSize = 36.sp,
                         fontWeight = FontWeight.ExtraBold,
                         color = MaterialTheme.colorScheme.onPrimaryContainer
@@ -63,20 +67,20 @@ fun ProfileScreen(navController: NavController, userViewModel: UserViewModel) {
                 }
             }
 
-            Text(profile.name, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
-            Text(profile.email, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(uiState.name, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold)
+            Text(uiState.email, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
 
             Spacer(Modifier.height(8.dp))
 
             ProfileInfoCard(
                 icon = Icons.Default.ShoppingCart,
                 label = "Budget Per Meal",
-                value = profile.budgetPerMeal
+                value = uiState.budgetPerMeal
             )
             ProfileInfoCard(
                 icon = Icons.Default.Favorite,
                 label = "Dietary Preference",
-                value = profile.dietaryPreference
+                value = uiState.dietaryPreference
             )
 
             Card(
@@ -111,7 +115,7 @@ fun ProfileScreen(navController: NavController, userViewModel: UserViewModel) {
 
             OutlinedButton(
                 onClick = {
-                    userViewModel.clearProfile()
+                    viewModel.resetProfile()
                     navController.navigate(Screen.Home.route) {
                         popUpTo(Screen.Home.route) { inclusive = true }
                     }
@@ -119,7 +123,7 @@ fun ProfileScreen(navController: NavController, userViewModel: UserViewModel) {
                 modifier = Modifier.fillMaxWidth().height(50.dp),
                 shape = RoundedCornerShape(12.dp)
             ) {
-                Icon(Icons.Default.ExitToApp, contentDescription = null)
+                Icon(Icons.AutoMirrored.Filled.ExitToApp, contentDescription = null)
                 Spacer(Modifier.width(8.dp))
                 Text("Log Out", fontWeight = FontWeight.Bold)
             }

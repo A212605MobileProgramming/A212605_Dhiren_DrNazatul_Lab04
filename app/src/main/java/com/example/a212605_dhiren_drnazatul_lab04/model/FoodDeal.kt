@@ -8,7 +8,8 @@ data class FoodDeal(
     val discount: String,
     val location: String,
     val time: String,
-    val detail: String
+    val detail: String,
+    val category: String = "All"
 )
 
 data class FlashDeal(

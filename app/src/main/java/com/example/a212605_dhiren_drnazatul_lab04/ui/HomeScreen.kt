@@ -23,13 +23,15 @@ import com.example.a212605_dhiren_drnazatul_lab04.datasource.DataSource
 import com.example.a212605_dhiren_drnazatul_lab04.model.FlashDeal
 import com.example.a212605_dhiren_drnazatul_lab04.model.FoodCategory
 import com.example.a212605_dhiren_drnazatul_lab04.model.FoodDeal
+import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.a212605_dhiren_drnazatul_lab04.model.CheapMealViewModel
 
 @Composable
-fun HomeScreen(navController: NavController, userViewModel: UserViewModel) {
+fun HomeScreen(navController: NavController, viewModel: CheapMealViewModel) {
     val scrollState = rememberScrollState()
     Scaffold(
         topBar = { TopBar() },
-        bottomBar = { BottomNavBar(navController, userViewModel) }
+        bottomBar = { BottomNavBar(navController, viewModel) }
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -250,7 +252,7 @@ fun ExpandableFoodCard(
 }
 
 @Composable
-fun BottomNavBar(navController: NavController, userViewModel: UserViewModel) {
+fun BottomNavBar(navController: NavController, viewModel: CheapMealViewModel) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
@@ -274,7 +276,7 @@ fun BottomNavBar(navController: NavController, userViewModel: UserViewModel) {
         NavigationBarItem(
             selected = currentRoute == Screen.Profile.route || currentRoute == Screen.ProfileSetup.route,
             onClick = {
-                if (userViewModel.isProfileSet) navController.navigate(Screen.Profile.route)
+                if (viewModel.isProfileSet) navController.navigate(Screen.Profile.route)
                 else navController.navigate(Screen.ProfileSetup.route)
             },
             icon = { Icon(Icons.Default.Person, null) },

@@ -3,23 +3,24 @@ package com.example.a212605_dhiren_drnazatul_lab04.ui
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.a212605_dhiren_drnazatul_lab04.model.CheapMealViewModel
 import com.example.a212605_dhiren_drnazatul_lab04.Screen
-import com.example.a212605_dhiren_drnazatul_lab04.model.UserProfile
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileSetupScreen(navController: NavController, userViewModel: UserViewModel) {
-    var name by remember { mutableStateOf(userViewModel.userProfile.name) }
-    var email by remember { mutableStateOf(userViewModel.userProfile.email) }
-    var budget by remember { mutableStateOf(userViewModel.userProfile.budgetPerMeal) }
-    var dietary by remember { mutableStateOf(userViewModel.userProfile.dietaryPreference) }
+fun ProfileSetupScreen(navController: NavController, viewModel: CheapMealViewModel) {
+    val current = viewModel.uiState.value
+    var name by remember { mutableStateOf(current.name) }
+    var email by remember { mutableStateOf(current.email) }
+    var budget by remember { mutableStateOf(current.budgetPerMeal) }
+    var dietary by remember { mutableStateOf(current.dietaryPreference) }
 
     Scaffold(
         topBar = {
@@ -27,7 +28,7 @@ fun ProfileSetupScreen(navController: NavController, userViewModel: UserViewMode
                 title = { Text("Set Up Profile", fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -36,7 +37,8 @@ fun ProfileSetupScreen(navController: NavController, userViewModel: UserViewMode
                     navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
                 )
             )
-        }
+        },
+        bottomBar = { BottomNavBar(navController, viewModel) }
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -78,9 +80,7 @@ fun ProfileSetupScreen(navController: NavController, userViewModel: UserViewMode
 
             Button(
                 onClick = {
-                    userViewModel.updateProfile(
-                        UserProfile(name = name, email = email, budgetPerMeal = budget, dietaryPreference = dietary)
-                    )
+                    viewModel.updateProfile(name, email, budget, dietary)
                     navController.navigate(Screen.Profile.route) {
                         popUpTo(Screen.ProfileSetup.route) { inclusive = true }
                     }
