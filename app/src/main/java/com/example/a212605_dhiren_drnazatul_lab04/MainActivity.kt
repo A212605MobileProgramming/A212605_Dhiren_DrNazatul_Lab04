@@ -10,7 +10,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             A212605_Dhiren_DrNazatul_Lab04Theme {
-                LunchTrayApp()
+                CheapMealApp()
             }
         }
     }

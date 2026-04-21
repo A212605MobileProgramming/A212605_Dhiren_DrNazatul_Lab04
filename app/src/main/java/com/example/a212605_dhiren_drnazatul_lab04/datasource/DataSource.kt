@@ -1,71 +1,45 @@
 package com.example.a212605_dhiren_drnazatul_lab04.datasource
 
-import com.example.a212605_dhiren_drnazatul_lab04.model.AccompanimentItem
-import com.example.a212605_dhiren_drnazatul_lab04.model.EntreeItem
-import com.example.a212605_dhiren_drnazatul_lab04.model.SideDishItem
+import com.example.a212605_dhiren_drnazatul_lab04.model.FlashDeal
+import com.example.a212605_dhiren_drnazatul_lab04.model.FoodCategory
+import com.example.a212605_dhiren_drnazatul_lab04.model.FoodDeal
 
 object DataSource {
-    val entreeMenuItems = listOf(
-        EntreeItem(
-            name = "Cauliflower",
-            description = "A veggified noodle bowl with cauliflower florets, broccoli, edamame and cream sauce.",
-            price = 7.00
-        ),
-        EntreeItem(
-            name = "Three Bean Chili",
-            description = "Vegan chili topped with sharp cheddar and avocado.",
-            price = 4.00
-        ),
-        EntreeItem(
-            name = "Mushroom Pasta",
-            description = "Penne pasta with mushrooms, caramelized onions, spinach, tomatoes, and arugula.",
-            price = 5.50
-        ),
-        EntreeItem(
-            name = "Spicy Black Bean Skillet",
-            description = "Black beans with peppers, and red onion, drizzled in sauce.",
-            price = 5.50
-        )
+
+    val flashDeals = listOf(
+        FlashDeal("🍱", "Bento\n-50%"),
+        FlashDeal("🍜", "Noodles\n-40%"),
+        FlashDeal("🎂", "Cakes\n-60%"),
+        FlashDeal("🥗", "Salad\n-30%")
     )
 
-    val sideDishMenuItems = listOf(
-        SideDishItem(
-            name = "Summer Salad",
-            description = "Seasonal vegetables with balsamic dressing.",
-            price = 2.50
-        ),
-        SideDishItem(
-            name = "Butternut Squash Soup",
-            description = "Creamy butternut squash soup with roasted pepitas.",
-            price = 3.00
-        ),
-        SideDishItem(
-            name = "Spicy Potatoes",
-            description = "Crispy fried potato slices, seasoned with spicy sauce.",
-            price = 2.00
-        ),
-        SideDishItem(
-            name = "Coconut Rice",
-            description = "Fragrant coconut-infused rice garnished with cilantro.",
-            price = 1.50
-        )
+    val categories = listOf(
+        FoodCategory("🛍️", "Mystery"),
+        FoodCategory("🍽️", "Dine-In"),
+        FoodCategory("🥘", "Meals"),
+        FoodCategory("🍰", "Dessert")
     )
 
-    val accompanimentMenuItems = listOf(
-        AccompanimentItem(
-            name = "Lunch Roll",
-            description = "Soft dinner roll.",
-            price = 0.50
+    val budgetPicks = listOf(
+        FoodDeal(
+            emoji = "🍽️",
+            name = "Weekdays Set Lunch",
+            price = "RM 8.90",
+            oldPrice = "RM 18.00",
+            discount = "50% off",
+            location = "Cafe Mahallah",
+            time = "12:00-14:00",
+            detail = "Includes rice and protein of your choice."
         ),
-        AccompanimentItem(
-            name = "Artisanal Bread Slice",
-            description = "Hearty slice of bread with butter.",
-            price = 1.00
-        ),
-        AccompanimentItem(
-            name = "Pickled Veggies",
-            description = "Pickled cucumbers and carrots.",
-            price = 0.50
+        FoodDeal(
+            emoji = "🥗",
+            name = "Healthy Box",
+            price = "RM 7.50",
+            oldPrice = "RM 15.00",
+            discount = "50% off",
+            location = "GreenBite",
+            time = "11:00-14:00",
+            detail = "Fresh salad with grilled chicken and dressing."
         )
     )
 }
